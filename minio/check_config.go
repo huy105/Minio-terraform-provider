@@ -209,3 +209,19 @@ func KMSKeyConfig(d *schema.ResourceData, meta interface{}) *S3MinioKMSKeyConfig
 		MinioKMSKeyID: d.Get("key_id").(string),
 	}
 }
+
+func LdapCheckConfig(d *schema.ResourceData, meta interface{}) *LdapConfig {
+	m := meta.(*S3MinioConfig)
+
+	return &LdapConfig{
+		S3HostPort:             m.S3HostPort,
+		server_insecure:        d.Get("server_insecure").(string),
+		server_addr:            d.Get("server_addr").(string),
+		lookup_bind_dn:         d.Get("lookup_bind_dn").(string),
+		lookup_bind_password:   d.Get("lookup_bind_password").(string),
+		user_dn_search_base_dn: d.Get("user_dn_search_base_dn").(string),
+		user_dn_search_filter:  d.Get("user_dn_search_filter").(string),
+		group_search_base_dn:   d.Get("group_search_base_dn").(string),
+		group_search_filter:    d.Get("group_search_filter").(string),
+	}
+}

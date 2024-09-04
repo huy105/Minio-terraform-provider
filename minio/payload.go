@@ -277,6 +277,18 @@ type ResponseError struct {
 	Region     string `json:"Region,omitempty"`
 }
 
+type LdapConfig struct {
+	S3HostPort             string
+	server_insecure        string
+	server_addr            string
+	lookup_bind_dn         string
+	lookup_bind_password   string
+	user_dn_search_base_dn string
+	user_dn_search_filter  string
+	group_search_base_dn   string
+	group_search_filter    string
+}
+
 // Resource prefix for all aws resources.
 const awsResourcePrefix = "arn:aws:s3:::"
 
