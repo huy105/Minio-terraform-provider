@@ -149,6 +149,7 @@ func newProvider(envvarPrefixed ...string) *schema.Provider {
 			"minio_ilm_policy":                       resourceMinioILMPolicy(),
 			"minio_kms_key":                          resourceMinioKMSKey(),
 			"minio_ilm_tier":                         resourceMinioILMTier(),
+			"minio_ldap_integration":                 resourceMinioLdapIntergration(),
 		},
 
 		ConfigureContextFunc: providerConfigure,

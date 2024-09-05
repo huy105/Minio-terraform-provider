@@ -211,10 +211,10 @@ func KMSKeyConfig(d *schema.ResourceData, meta interface{}) *S3MinioKMSKeyConfig
 }
 
 func LdapCheckConfig(d *schema.ResourceData, meta interface{}) *LdapConfig {
-	m := meta.(*S3MinioConfig)
+	m := meta.(*S3MinioClient)
 
 	return &LdapConfig{
-		S3HostPort:             m.S3HostPort,
+		S3HostPort:             m.S3Admin.GetEndpointURL().Host,
 		server_insecure:        d.Get("server_insecure").(string),
 		server_addr:            d.Get("server_addr").(string),
 		lookup_bind_dn:         d.Get("lookup_bind_dn").(string),

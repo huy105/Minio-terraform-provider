@@ -2,7 +2,10 @@ package minio
 
 import (
 	"context"
+	"log"
+	"reflect"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -10,7 +13,7 @@ import (
 func resourceMinioLdapIntergration() *schema.Resource {
 	return &schema.Resource{
 		Description:   "Intergration minio server with ldap service for access management.",
-		CreateContext: minioPutMinioLdapIntergration,
+		CreateContext: minioCreateMinioLdapIntergration,
 		ReadContext:   minioReadMinioLdapIntergration,
 		UpdateContext: minioPutMinioLdapIntergration,
 		DeleteContext: minioDeleteMinioLdapIntergration,
@@ -71,14 +74,39 @@ func resourceMinioLdapIntergration() *schema.Resource {
 	}
 }
 
+func minioCreateMinioLdapIntergration(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+
+	id := uuid.New().String()
+	d.SetId("minio_ldap_config" + id)
+
+	return minioReadMinioLdapIntergration(ctx, d, meta)
+}
+
 func minioPutMinioLdapIntergration(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 
-	ldapConfig := LdapCheckConfig(d, meta)
+	log.Printf("meta value: %+v", meta)
+
+	// ldapConfig := LdapCheckConfig(d, meta)
+
+	// log.Printf("LDAP Configuration: %+v", ldapConfig)
 
 	return nil
 }
 
 func minioReadMinioLdapIntergration(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+
+	ldapConfig := LdapCheckConfig(d, meta)
+	log.Printf("LDAP Configuration: %+v", ldapConfig)
+
+	typ := reflect.TypeOf(ldapConfig)
+	val := reflect.ValueOf(ldapConfig)
+
+	for i := 0; i < val.NumField(); i++ {
+
+		if err := d.Set(typ.Field(i).Name, val.Field(i).Interface()); err != nil {
+			return NewResourceError("error reading Ldap config %s: %s", d.Id(), err)
+		}
+	}
 
 	return nil
 }

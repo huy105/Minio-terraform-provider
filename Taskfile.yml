@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   PLUGIN_VERSION: $(git describe --tags `git rev-list --tags --max-count=1` | sed 's/v//')
-  OUTPUT_FILENAME: terraform-provider-minio
+  OUTPUT_FILENAME: terraform-provider-huylg
 
 tasks:
   default:
@@ -30,7 +30,8 @@ tasks:
     vars: 
       WINDOWS_OUTPUT_PATH: '{{.APPDATA}}\HashiCorp\Terraform\plugins\registry.terraform.io\aminueza\minio\{{.PLUGIN_VERSION}}\{{OS}}_{{ARCH}}\{{.OUTPUT_FILENAME}}'
       DARWIN_OUTPUT_PATH: '{{.HOME}}/Library/Application Support/io.terraform/plugins/registry.terraform.io/aminueza/minio/{{.PLUGIN_VERSION}}/{{OS}}_{{ARCH}}/{{.OUTPUT_FILENAME}}'
-      UNIX_OUTPUT_PATH: '{{.HOME}}/.local/share/terraform/plugins/registry.terraform.io/aminueza/minio/{{.PLUGIN_VERSION}}/{{OS}}_{{ARCH}}/{{.OUTPUT_FILENAME}}'
+      UNIX_OUTPUT_PATH: '{{.HOME}}/.terraform.d/plugins/repo/minio/huylg/{{.PLUGIN_VERSION}}/{{OS}}_{{ARCH}}/{{.OUTPUT_FILENAME}}'
+      # UNIX_OUTPUT_PATH: '{{.HOME}}/.local/share/terraform/plugins/registry.terraform.io/aminueza/minio/{{.PLUGIN_VERSION}}/{{OS}}_{{ARCH}}/{{.OUTPUT_FILENAME}}'
     cmds:
       - |
         {{if eq OS "windows"}}
